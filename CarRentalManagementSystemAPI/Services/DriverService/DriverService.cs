@@ -20,7 +20,7 @@ namespace CarRentalManagementSystemAPI.Services.DriverService
 
         public async Task<List<Driver>?> DeleteDriverByDriverId(Guid id)
         {
-            var findDriver = _context.Drivers.Find(id);
+            var findDriver = await _context.Drivers.FindAsync(id);
             if (findDriver == null)
                 return null;
 

@@ -20,7 +20,7 @@ namespace CarRentalManagementSystemAPI.Controllers
         {
             return await _driverSercvice.GetAllDrivers();
         }
-        [HttpGet("{Id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Driver>?> GetDriverById(Guid id)
         {
             var result = await _driverSercvice.GetDriverByDriverId(id);
@@ -31,7 +31,7 @@ namespace CarRentalManagementSystemAPI.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("{Id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<List<Driver>>?> DeleteDriversById(Guid id)
         {
             var result = await _driverSercvice.DeleteDriverByDriverId(id);
