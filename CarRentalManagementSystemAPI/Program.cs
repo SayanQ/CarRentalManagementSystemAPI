@@ -4,6 +4,8 @@ using CarRentalManagementSystemAPI.Services.CarService;
 using CarRentalManagementSystemAPI.Services.CustomerService;
 using CarRentalManagementSystemAPI.Services.DriverService;
 using CarRentalManagementSystemAPI.Services.EmployeeService;
+using CarRentalManagementSystemAPI.Services.BookingService;
+
 
 
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +23,8 @@ builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IDriverService, DriverService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+
 
 
 builder.Services.AddDbContext<DataContext>(options =>

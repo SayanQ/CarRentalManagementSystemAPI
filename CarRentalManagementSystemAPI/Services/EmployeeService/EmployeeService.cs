@@ -34,7 +34,7 @@
             return employees;
         }
 
-        public async Task<Employee?> GetEmployeeByEmployeeId(Guid id)
+        public async Task<Employee>? GetEmployeeByEmployeeId(Guid id)
         {
             var findEmployee = await _context.Employees.FindAsync(id);
 

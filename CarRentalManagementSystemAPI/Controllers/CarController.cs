@@ -37,6 +37,18 @@ namespace CarRentalManagementSystemAPI.Controllers
             return Ok(result);
         }
 
+        [HttpGet("byModel/{model}")]
+        //[Route("{Model}")]//telling swagger for getting the car_no from user
+        public async Task<ActionResult<List<Car>>> GetCarByModel(string model)
+        {
+            var result = await _carService.GetCarByModel(model);
+
+            if (result == null)
+                return NotFound("Car doesn't exist in databse");
+
+            return Ok(result);
+        }
+
         //Add car in the cars
         [HttpPost]
         public async Task<ActionResult<List<Car>>> AddCar(Car car)//telling the method that input will be getting from the body

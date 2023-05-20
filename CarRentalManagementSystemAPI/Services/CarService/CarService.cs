@@ -76,6 +76,17 @@ namespace CarRentalManagementSystemAPI.Services.CarService
             return findCar;
         }
 
+        public async Task<Car?> GetCarByModel(string model)
+        {
+            var findCar = await _context.Cars.FirstOrDefaultAsync(c => c.Model == model);
+
+            //checking the car is in our database or not
+            if (findCar == null)
+                return null;
+
+            return findCar;
+        }
+
         public async Task<List<Car>?> UpdateCarByCarNo(Car car)
         {
             var findCar = await _context.Cars.FindAsync(car.Car_No);

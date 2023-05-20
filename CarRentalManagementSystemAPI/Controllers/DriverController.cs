@@ -21,7 +21,7 @@ namespace CarRentalManagementSystemAPI.Controllers
             return await _driverSercvice.GetAllDrivers();
         }
         [HttpGet("{Id}")]
-        public async Task<ActionResult<Driver>?> GetDriversById(Guid id)
+        public async Task<ActionResult<Driver>?> GetDriverById(Guid id)
         {
             var result = await _driverSercvice.GetDriverByDriverId(id);
             if (result == null) { 

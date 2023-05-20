@@ -8,20 +8,27 @@ namespace CarRentalManagementSystemAPI.Models
     {
         [Key]
         public Guid Id { get; set; }
-        public string Booking_Id { get; set; }
-        public string Customer_Id { get; set; }
-        public string Car_No { get; set; }
+        [Required]
+        public string B_Id { get; set; }
+        public Booking Booking { get; set; }
 
-        public string? Driver_Id { get; set; }
-
+        [Required]
         public string Payment_Type { get; set;}
 
+        [Required]
         public bool Payment_Status { get; set; }
 
-        public DateAndTime Payment_Date_Time { get; set; }
+
+        [Required]
+        public DateTime Payment_Date_Time { get; set; }
+
+        [Required]
         public float Amount { get; set; }
 
-        
+        public Payment()
+        {
+            Payment_Date_Time = DateTime.Now;
+        }
 
 
     }

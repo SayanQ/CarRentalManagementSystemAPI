@@ -4,6 +4,7 @@ using CarRentalManagementSystemAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRentalManagementSystemAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230520104513_Booking")]
+    partial class Booking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -282,39 +285,6 @@ namespace CarRentalManagementSystemAPI.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Payment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<float>("Amount")
-                        .HasColumnType("real");
-
-                    b.Property<string>("B_Id")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("BookingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Payment_Date_Time")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Payment_Status")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Payment_Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookingId");
-
-                    b.ToTable("Payments");
-                });
-
             modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Booking", b =>
                 {
                     b.HasOne("CarRentalManagementSystemAPI.Models.Car", "Car")
@@ -340,17 +310,6 @@ namespace CarRentalManagementSystemAPI.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Driver");
-                });
-
-            modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Payment", b =>
-                {
-                    b.HasOne("CarRentalManagementSystemAPI.Models.Booking", "Booking")
-                        .WithMany()
-                        .HasForeignKey("BookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Booking");
                 });
 #pragma warning restore 612, 618
         }
