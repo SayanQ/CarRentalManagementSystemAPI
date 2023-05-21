@@ -9,7 +9,7 @@
         }
         public async Task<List<Employee>?> AddEmployee(Employee employee)
         {
-            _context.Employees.Add(employee);
+            await _context.Employees.AddAsync(employee);
             await _context.SaveChangesAsync();
 
             return await GetAllEmployees();

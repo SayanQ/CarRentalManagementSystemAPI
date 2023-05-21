@@ -38,8 +38,8 @@ namespace CarRentalManagementSystemAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Employee>>> AddEmployee([FromBody] Employee e)
         {
-            var resulr = await _employeeService.AddEmployee(e);
-            return Ok(resulr);
+            var result = await _employeeService.AddEmployee(e);
+            return Ok(result);
         }
 
         [HttpPut]
