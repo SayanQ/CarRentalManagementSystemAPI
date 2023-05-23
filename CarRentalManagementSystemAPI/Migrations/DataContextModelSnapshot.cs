@@ -24,32 +24,24 @@ namespace CarRentalManagementSystemAPI.Migrations
 
             modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Booking", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Booking_Date_Time")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("C_Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("CarId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("C_No")
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DriverId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Car_No")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("D_Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DriverId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
                     b.Property<string>("Drop_Off_Location")
                         .IsRequired()
@@ -67,7 +59,7 @@ namespace CarRentalManagementSystemAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Car_No");
+                    b.HasIndex("CarId");
 
                     b.HasIndex("CustomerId");
 
@@ -78,11 +70,18 @@ namespace CarRentalManagementSystemAPI.Migrations
 
             modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Car", b =>
                 {
-                    b.Property<string>("Car_No")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Boot_space")
                         .HasColumnType("int");
+
+                    b.Property<string>("Car_No")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("Charges_Per_Hour")
                         .HasColumnType("real");
@@ -116,16 +115,18 @@ namespace CarRentalManagementSystemAPI.Migrations
                     b.Property<int>("Year_Of_Manufacturing")
                         .HasColumnType("int");
 
-                    b.HasKey("Car_No");
+                    b.HasKey("Id");
 
                     b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Customer", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Aadhaar_no")
                         .IsRequired()
@@ -166,9 +167,11 @@ namespace CarRentalManagementSystemAPI.Migrations
 
             modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Driver", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -222,9 +225,11 @@ namespace CarRentalManagementSystemAPI.Migrations
 
             modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Employee", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Aadhaar_no")
                         .IsRequired()
@@ -282,55 +287,22 @@ namespace CarRentalManagementSystemAPI.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Payment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<float>("Amount")
-                        .HasColumnType("real");
-
-                    b.Property<string>("B_Id")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("BookingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Payment_Date_Time")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Payment_Status")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Payment_Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookingId");
-
-                    b.ToTable("Payments");
-                });
-
             modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Booking", b =>
                 {
                     b.HasOne("CarRentalManagementSystemAPI.Models.Car", "Car")
-                        .WithMany()
-                        .HasForeignKey("Car_No")
+                        .WithMany("Bookings")
+                        .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CarRentalManagementSystemAPI.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Bookings")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CarRentalManagementSystemAPI.Models.Driver", "Driver")
-                        .WithMany()
+                        .WithMany("Bookings")
                         .HasForeignKey("DriverId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -342,15 +314,19 @@ namespace CarRentalManagementSystemAPI.Migrations
                     b.Navigation("Driver");
                 });
 
-            modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Payment", b =>
+            modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Car", b =>
                 {
-                    b.HasOne("CarRentalManagementSystemAPI.Models.Booking", "Booking")
-                        .WithMany()
-                        .HasForeignKey("BookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Bookings");
+                });
 
-                    b.Navigation("Booking");
+            modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Customer", b =>
+                {
+                    b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Driver", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }

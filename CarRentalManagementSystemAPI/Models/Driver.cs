@@ -7,7 +7,11 @@ namespace CarRentalManagementSystemAPI.Models
     public class Driver
     {
         [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; set; }
+
+        //[RegularExpression(@"^D\d{4}$", ErrorMessage = "Driver Id must be in the format DXXXX")]
+
+        //public string Id { get; set; } = String.Empty;
         [Required]
         [StringLength(50, MinimumLength = 5)]
         public string Name { get; set; } = string.Empty;
@@ -42,6 +46,10 @@ namespace CarRentalManagementSystemAPI.Models
         [Required]
         [Range(100, 250, ErrorMessage = "Driver's per hour charge must be between 100 and 250.")]
         public float Charges_Per_Hour { get; set; } = float.MaxValue;
+
+        //Navigation Property
+        public List<Booking> Bookings { get; set; } = new List<Booking>();
+
 
     }
 }

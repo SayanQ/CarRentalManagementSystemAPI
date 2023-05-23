@@ -9,7 +9,10 @@ namespace CarRentalManagementSystemAPI.Models
     public class Customer
     {
         [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; set; }
+
+        //[RegularExpression(@"^CS\d{4}$", ErrorMessage = "Customer Id must be in the format CSXXXX")]
+        //public string Id { get; set; } = string.Empty;
 
         [Required]
         [StringLength(50, MinimumLength = 5)]
@@ -41,6 +44,10 @@ namespace CarRentalManagementSystemAPI.Models
 
         [Required]
         public DateTime Date_Of_Birth { get; set; } = new DateTime();
+
+        //Navigation Property
+        public List<Booking> Bookings { get; set; } = new List<Booking>();
+
 
     }
 }

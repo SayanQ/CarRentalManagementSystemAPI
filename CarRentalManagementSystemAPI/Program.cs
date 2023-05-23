@@ -1,11 +1,12 @@
 global using CarRentalManagementSystemAPI.Models;
+global using CarRentalManagementSystemAPI.ViewModels;
 global using CarRentalManagementSystemAPI.Data;
 using CarRentalManagementSystemAPI.Services.CarService;
 using CarRentalManagementSystemAPI.Services.CustomerService;
 using CarRentalManagementSystemAPI.Services.DriverService;
 using CarRentalManagementSystemAPI.Services.EmployeeService;
 using CarRentalManagementSystemAPI.Services.BookingService;
-using CarRentalManagementSystemAPI.Services.PaymentService;
+//using CarRentalManagementSystemAPI.Services.PaymentService;
 
 
 
@@ -25,7 +26,7 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IDriverService, DriverService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
+//builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 
 

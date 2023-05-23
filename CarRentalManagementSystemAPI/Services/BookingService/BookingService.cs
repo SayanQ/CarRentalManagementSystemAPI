@@ -56,9 +56,9 @@
             }
 
             findBooking.Id = booking.Id;
-            findBooking.C_Id = booking.C_Id;
-            findBooking.D_Id = booking.D_Id;
-            findBooking.C_No = booking.C_No;
+            findBooking.CarId = booking.CarId;
+            findBooking.DriverId = booking.DriverId;
+            findBooking.CustomerId = booking.CustomerId;
             findBooking.Booking_Date_Time = booking.Booking_Date_Time;
             findBooking.Rental_Start_Date_Time = booking.Rental_Start_Date_Time;
             findBooking.Rental_End_Date_Time = booking.Rental_End_Date_Time;

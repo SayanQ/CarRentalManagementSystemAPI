@@ -1,5 +1,4 @@
-﻿using CarRentalManagementSystemAPI.Models;
-using CarRentalManagementSystemAPI.Services.CarService;
+﻿using CarRentalManagementSystemAPI.Services.CarService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +16,7 @@ namespace CarRentalManagementSystemAPI.Controllers
 
         //Return all cars
         [HttpGet]//for sending response to the swagger 
-        public async Task<ActionResult<List<Car>?>> GetAllCars()
+        public async Task<ActionResult<List<CarVM>?>> GetAllCars()
         {
             return await _carService.GetAllCars();
             ///var allCar = _carService.GetAllCars();
@@ -41,7 +40,7 @@ namespace CarRentalManagementSystemAPI.Controllers
         //[Route("{Model}")]//telling swagger for getting the car_no from user
         public async Task<ActionResult<List<Car>>> GetCarByModel(string model)
         {
-            var result = await _carService.GetCarByModel(model);
+            var result = await _carService.GetCarsByModel(model);
 
             if (result == null)
                 return NotFound("Car doesn't exist in databse");
@@ -51,7 +50,7 @@ namespace CarRentalManagementSystemAPI.Controllers
 
         //Add car in the cars
         [HttpPost]
-        public async Task<ActionResult<List<Car>>> AddCar(Car car)//telling the method that input will be getting from the body
+        public async Task<ActionResult<List<Car>>> AddCar(CarVM car)//telling the method that input will be getting from the body
         {
             var result = await _carService.AddCar(car);
             return Ok(result);
@@ -59,7 +58,7 @@ namespace CarRentalManagementSystemAPI.Controllers
 
         //Update cars by car no
         [HttpPut]
-        public async Task<ActionResult<List<Car>>> UpdateCarByCarNo(Car car)
+        public async Task<ActionResult<List<Car>>> UpdateCarByCarNo([FromBody]CarVM car)
         {
             var result = await _carService.UpdateCarByCarNo(car);
 

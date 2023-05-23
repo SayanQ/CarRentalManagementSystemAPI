@@ -7,7 +7,11 @@ namespace CarRentalManagementSystemAPI.Models
     public class Employee
     {
         [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; set; }
+
+        //[RegularExpression(@"^EMP\d{4}$", ErrorMessage = "Employee number must be in the format EMPXXXX")]
+
+        //public string Id { get; set; } = string.Empty;
 
         [Required]
         [StringLength(50, MinimumLength = 5)]
