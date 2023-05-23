@@ -19,8 +19,6 @@ namespace CarRentalManagementSystemAPI.Controllers
         public async Task<ActionResult<List<CarVM>?>> GetAllCars()
         {
             return await _carService.GetAllCars();
-            ///var allCar = _carService.GetAllCars();
-            //return Ok(allCar);
         }
 
         //Return cars by car no

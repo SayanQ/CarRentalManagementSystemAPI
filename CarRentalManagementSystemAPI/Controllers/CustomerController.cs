@@ -18,15 +18,15 @@ namespace CarRentalManagementSystemAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Customer>?>> GetAllCustomers()
+        public async Task<ActionResult<List<CustomerVM>?>> GetAllCustomers()
         {
             return await _customerService.GetAllCustomers();
         }
 
-        [HttpGet("{Id}")]
-        public async Task<ActionResult<List<Customer>?>> GetCustomerByCustomerId(Guid Id)
+        [HttpGet("{name}")]
+        public async Task<ActionResult<List<Customer>?>> GetCustomersByName(string name)
         {
-            var result = await _customerService.GetCustomerByCustomerId(Id);
+            var result = await _customerService.GetCustomersByName(name);
 
             if(result == null)
                 return NotFound("Customer doesn't exists in the database.");
@@ -35,9 +35,9 @@ namespace CarRentalManagementSystemAPI.Controllers
         }
 
         [HttpDelete("{Id}")]
-        public async Task<ActionResult<List<Customer>?>> DeleteCustomerByCustomerId(Guid Id)
+        public async Task<ActionResult<List<Customer>?>> DeleteCustomerByPhoneNo(string phone)
         {
-            var result = await _customerService.DeleteCustomerByCustomerId(Id);
+            var result = await _customerService.DeleteCustomerByPhoneNo(phone);
 
             if (result == null)
                 return NotFound("Customer doesn't exists in the database.");
@@ -46,16 +46,16 @@ namespace CarRentalManagementSystemAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Customer>>> AddCustomer([FromBody]Customer customer)
+        public async Task<ActionResult<List<Customer>>> AddCustomer([FromBody]CustomerVM customer)
         {
             var result = await _customerService.AddCustomer(customer);
             return Ok(result);
         }
 
         [HttpPut]
-        public async Task<ActionResult<List<Customer>?>> UpdateCustomerByCustomerId([FromBody] Customer customer)
+        public async Task<ActionResult<List<Customer>?>> UpdateCustomer([FromBody]CustomerVM customer)
         {
-            var result = await _customerService.UpdateCustomerByCustomerId(customer);
+            var result = await _customerService.UpdateCustomer(customer);
 
             if (result == null)
                 return NotFound("Customer doesn't exists in the database.");

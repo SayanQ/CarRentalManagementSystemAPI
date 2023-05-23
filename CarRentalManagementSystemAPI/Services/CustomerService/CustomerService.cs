@@ -1,4 +1,7 @@
 ﻿using CarRentalManagementSystemAPI.Models;
+using CarRentalManagementSystemAPI.ViewModels;
+using System.Net;
+using System.Numerics;
 
 namespace CarRentalManagementSystemAPI.Services.CustomerService
 {
@@ -10,65 +13,209 @@ namespace CarRentalManagementSystemAPI.Services.CustomerService
         {
             _context = context;
         }
-        public async Task<List<Customer>?> AddCustomer(Customer customer)
+        public async Task<List<CustomerVM>> AddCustomer(CustomerVM customer)
         {
-            _context.Customers.Add(customer);
+            var _customer = new Customer()
+            {
+                Name = customer.Name,
+                Address = customer.Address,
+                Phone = customer.Phone,
+                Email = customer.Email,
+                Aadhaar_no = customer.Aadhaar_no,
+                Pan_No = customer.Pan_No,
+                Date_Of_Birth = customer.Date_Of_Birth
+            };
+            _context.Customers.Add(_customer);
             await _context.SaveChangesAsync();
 
             return await GetAllCustomers();
         }
 
-        public async Task<List<Customer>?> DeleteCustomerByCustomerId(Guid Customer_Id)
+        public async Task<List<CustomerVM>?> DeleteCustomerByPhoneNo(string phone)
         {
-            var findCustomer = await _context.Customers.FindAsync(Customer_Id);
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Phone == phone);
 
             //checking the car is in our database or not
-            if (findCustomer == null)
+            if (customer == null)
                 return null;
-
-            _context.Customers.Remove(findCustomer);
+           
+            _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
 
             return await GetAllCustomers();
         }
 
-        public async Task<List<Customer>> GetAllCustomers()
+        public async Task<List<CustomerVM>> GetAllCustomers()
         {
-            var result = await _context.Customers.ToListAsync();
+            var customers = await _context.Customers.ToListAsync();
+
+            List<CustomerVM> result = new List<CustomerVM>();
+
+            foreach (var customer in customers)
+            {
+                CustomerVM obj = new CustomerVM()
+                {
+                    Name = customer.Name,
+                    Address = customer.Address,
+                    Phone = customer.Phone,
+                    Email = customer.Email,
+                    Aadhaar_no = customer.Aadhaar_no,
+                    Pan_No = customer.Pan_No,
+                    Date_Of_Birth = customer.Date_Of_Birth
+                };
+
+                result.Add(obj);
+            }
             return result;
         }
 
-        public async Task<Customer?> GetCustomerByCustomerId(Guid Customer_Id)
+        public async Task<List<CustomerVM>?> GetCustomersByName(string name)
         {
-            var findCustomer = await _context.Customers.FindAsync(Customer_Id);
+            var customers = await _context.Customers.Where(c => c.Name == name).ToListAsync();
 
+            List<CustomerVM> result = new List<CustomerVM>();
+            CustomerVM customerVM;
             //checking the car is in our database or not
-            if (findCustomer == null)
+            if (customers == null)
                 return null;
+            else
+            {
+                foreach (var customer in customers)
+                {
+                    customerVM = new CustomerVM()
+                    {
+                        Name = customer.Name,
+                        Address = customer.Address,
+                        Phone = customer.Phone,
+                        Email = customer.Email,
+                        Aadhaar_no = customer.Aadhaar_no,
+                        Pan_No = customer.Pan_No,
+                        Date_Of_Birth = customer.Date_Of_Birth
+                    };
+                    result.Add(customerVM);
+                }
 
-            return findCustomer;
+            }
+            return result;
+
         }
 
-        public async Task<List<Customer>?> UpdateCustomerByCustomerId(Customer customer)
+        public async Task<CustomerVM?> GetCustomerByPhoneNo(string phoneNo)
         {
-            var findCustomer = await _context.Customers.FindAsync(customer.Id);
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Phone == phoneNo);
+            CustomerVM result;
+            //checking the car is in our database or not
+            if (customer == null)
+                return null;
+            else
+            {
+                result = new CustomerVM()
+                {
+                    Name = customer.Name,
+                    Address = customer.Address,
+                    Phone = customer.Phone,
+                    Email = customer.Email,
+                    Aadhaar_no = customer.Aadhaar_no,
+                    Pan_No = customer.Pan_No,
+                    Date_Of_Birth = customer.Date_Of_Birth
+                };
+            }
+
+            return result;
+        }
+
+        public async Task<CustomerVM?> GetCustomerByEmailId(string email)
+        {
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Email == email);
+            CustomerVM result;
+            //checking the car is in our database or not
+            if (customer == null)
+                return null;
+            else
+            {
+                result = new CustomerVM()
+                {
+                    Name = customer.Name,
+                    Address = customer.Address,
+                    Phone = customer.Phone,
+                    Email = customer.Email,
+                    Aadhaar_no = customer.Aadhaar_no,
+                    Pan_No = customer.Pan_No,
+                    Date_Of_Birth = customer.Date_Of_Birth
+                };
+            }
+
+            return result;
+        }
+
+        public async Task<CustomerVM?> GetCustomerByAadhaarNo(string aadhaar)
+        {
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Aadhaar_no == aadhaar);
+            CustomerVM result;
+            //checking the car is in our database or not
+            if (customer == null)
+                return null;
+            else
+            {
+                result = new CustomerVM()
+                {
+                    Name = customer.Name,
+                    Address = customer.Address,
+                    Phone = customer.Phone,
+                    Email = customer.Email,
+                    Aadhaar_no = customer.Aadhaar_no,
+                    Pan_No = customer.Pan_No,
+                    Date_Of_Birth = customer.Date_Of_Birth
+                };
+            }
+
+            return result;
+        }
+
+        public async Task<CustomerVM?> GetCustomerByPanNo(string pan)
+        {
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Pan_No == pan);
+            CustomerVM result;
+            //checking the car is in our database or not
+            if (customer == null)
+                return null;
+            else
+            {
+                result = new CustomerVM()
+                {
+                    Name = customer.Name,
+                    Address = customer.Address,
+                    Phone = customer.Phone,
+                    Email = customer.Email,
+                    Aadhaar_no = customer.Aadhaar_no,
+                    Pan_No = customer.Pan_No,
+                    Date_Of_Birth = customer.Date_Of_Birth
+                };
+            }
+
+            return result;
+        }
+        public async Task<List<CustomerVM>?> UpdateCustomer(CustomerVM cust)
+        {
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Phone == cust.Phone);
 
             //checking the car is in our database or not
-            if (findCustomer == null)
+            if (customer == null)
                 return null;
+            else
+            {
+                customer.Name = cust.Name;
+                customer.Address = cust.Address;
+                customer.Phone = cust.Phone;
+                customer.Email = cust.Email;
+                customer.Aadhaar_no = cust.Aadhaar_no;
+                customer.Pan_No = cust.Pan_No;
+                customer.Date_Of_Birth = cust.Date_Of_Birth;
 
-            findCustomer.Id = customer.Id;
-            findCustomer.Address = customer.Address;    
-            findCustomer.Aadhaar_no = customer.Aadhaar_no;
-            findCustomer.Phone = customer.Phone;
-            findCustomer.Date_Of_Birth = customer.Date_Of_Birth;
-            findCustomer.Email = customer.Email;
-            findCustomer.Name = customer.Name;
-            findCustomer.Pan_No = customer.Pan_No;  
-
-            await _context.SaveChangesAsync();
-
+                await _context.SaveChangesAsync();//for saving the changes to the database
+            }
             return await GetAllCustomers();
         }
+
     }
 }

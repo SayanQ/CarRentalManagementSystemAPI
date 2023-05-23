@@ -47,7 +47,7 @@ namespace CarRentalManagementSystemAPI.Models
         }
 
         */
-
+        [Key]
         public int Id { get; set; }
 
         //Navigation Property
