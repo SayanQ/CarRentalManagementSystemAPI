@@ -7,11 +7,11 @@ namespace CarRentalManagementSystemAPI.Controllers
     [ApiController]
     public class BookingController : ControllerBase
     {
-        private readonly BookingService _booking;
+        private readonly IBookingService _booking;
 
         public BookingController(IBookingService booking)
         {
-            _booking = (BookingService)booking;
+            _booking = booking;
         }
         [HttpGet]
         public async Task<ActionResult<List<BookingVM>>> GetALLBooking()

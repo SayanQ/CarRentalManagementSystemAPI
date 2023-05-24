@@ -8,10 +8,10 @@ namespace CarRentalManagementSystemAPI.Controllers
     [ApiController]
     public class CarController : ControllerBase
     {
-        private readonly CarService _carService;
+        private readonly ICarService _carService;
         public CarController(ICarService carService)
         {
-            _carService = (CarService)carService;
+            _carService = carService;
         }
 
         //Return all cars

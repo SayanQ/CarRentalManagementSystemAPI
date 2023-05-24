@@ -53,7 +53,7 @@ namespace CarRentalManagementSystemAPI.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("{Id}")]
+        [HttpDelete("{str}")]
         public async Task<ActionResult<List<EmployeeVM>>?> DeleteEmployee(string str)
         {
             var result = await _employeeService.DeleteEmployee(str);

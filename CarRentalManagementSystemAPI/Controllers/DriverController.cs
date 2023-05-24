@@ -7,11 +7,11 @@ namespace CarRentalManagementSystemAPI.Controllers
     [ApiController]
     public class DriverController : ControllerBase
     {
-        private  readonly DriverService _driverSercvice;
+        private  readonly IDriverService _driverSercvice;
 
         public DriverController(IDriverService driverSercvice)
         {
-            _driverSercvice = (DriverService)driverSercvice;
+            _driverSercvice = driverSercvice;
         }
 
         [HttpPost]
