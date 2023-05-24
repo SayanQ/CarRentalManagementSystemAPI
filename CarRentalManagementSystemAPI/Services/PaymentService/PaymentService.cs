@@ -121,9 +121,9 @@ namespace CarRentalManagementSystemAPI.Services.PaymentService
 
             return result;
         }
-        public async Task<List<Payment>?> UpdatePaymentBookingId(PaymentVM payment)
+        public async Task<List<PaymentVM>?> UpdatePaymentByBookingId(PaymentVM payment)
         {
-            var findPayment = await _context.Payments.FirstOrDefaultAsync(b => b.BookingId == id);
+            var findPayment = await _context.Payments.FirstOrDefaultAsync(b => b.BookingId == payment.BookingId);
 
             if (findPayment == null)
             {
@@ -141,5 +141,6 @@ namespace CarRentalManagementSystemAPI.Services.PaymentService
 
             return await GetAllPayments();
         }
+
     }
 }

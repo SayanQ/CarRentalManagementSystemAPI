@@ -34,9 +34,9 @@ namespace CarRentalManagementSystemAPI.Controllers
         }
 
         [HttpGet("byStatus/{paymentStatus}")]
-        public async Task<ActionResult<List<PaymentVM>>?> GetPaymentByStatus(bool status)
+        public async Task<ActionResult<List<PaymentVM>>?> GetPaymentByStatus(bool paymentStatus)
         {
-            var result = await _paymentService.GetPaymentsByStatus(status);
+            var result = await _paymentService.GetPaymentsByStatus(paymentStatus);
             if (result == null)
             {
                 return NotFound("Payment doesn't exist in databse");
@@ -62,7 +62,7 @@ namespace CarRentalManagementSystemAPI.Controllers
         [HttpPut]
         public async Task<ActionResult<List<Payment>>?> UpdatePayment([FromBody] PaymentVM payment)
         {
-            var result = await _paymentService.UpdatePaymentBookingId(payment);
+            var result = await _paymentService.UpdatePaymentByBookingId(payment);
             if (result == null)
             {
                 return NotFound("Payment doesn't exist in databse");

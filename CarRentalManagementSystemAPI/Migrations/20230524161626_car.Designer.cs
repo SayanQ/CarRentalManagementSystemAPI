@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRentalManagementSystemAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230523071855_final")]
-    partial class final
+    [Migration("20230524161626_car")]
+    partial class car
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -290,6 +290,37 @@ namespace CarRentalManagementSystemAPI.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<int>("BookingId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Payment_Date_Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Payment_Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Payment_Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookingId");
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Booking", b =>
                 {
                     b.HasOne("CarRentalManagementSystemAPI.Models.Car", "Car")
@@ -315,6 +346,22 @@ namespace CarRentalManagementSystemAPI.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Driver");
+                });
+
+            modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Payment", b =>
+                {
+                    b.HasOne("CarRentalManagementSystemAPI.Models.Booking", "Booking")
+                        .WithMany("Payments")
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Booking");
+                });
+
+            modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Booking", b =>
+                {
+                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("CarRentalManagementSystemAPI.Models.Car", b =>
