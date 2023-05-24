@@ -4,11 +4,11 @@ namespace CarRentalManagementSystemAPI.Services.BookingService
 {
     public interface IBookingService
     {
-        Task<List<Booking>> AddBooking(Booking booking);
-        Task<List<Booking>?> GetAllBooking();
+        Task<List<BookingVM>?> AddBooking(BookingVM booking);
+        Task<List<BookingVM>?> GetAllBooking();
         Task<Booking?> GetBookingByBookingId(Guid Id);
-        Task<List<Booking>?> DeleteBookingByBookingId(Guid Id);
-        Task<List<Booking>?> UpdateBookingByBookingId(Booking booking);
+        Task<List<BookingVM>?> DeleteBookingByBookingId(Guid Id);
+        Task<List<BookingVM>?> UpdateBookingByBookingId(Booking booking);
 
 
     }

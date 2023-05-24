@@ -14,7 +14,7 @@ namespace CarRentalManagementSystemAPI.Controllers
             _booking = (BookingService)booking;
         }
         [HttpGet]
-        public async Task<ActionResult<List<Booking>>> GetALLBooking()
+        public async Task<ActionResult<List<BookingVM>>> GetALLBooking()
         {
             return await _booking.GetAllBooking();
         }
@@ -31,7 +31,7 @@ namespace CarRentalManagementSystemAPI.Controllers
             return Ok(result);
         }
         [HttpPost]
-        public async Task<ActionResult<List<Booking>>> AddBooking(Booking booking)
+        public async Task<ActionResult<List<BookingVM>>> AddBooking(BookingVM booking)
         {
             return await _booking.AddBooking(booking);
         }

@@ -1,4 +1,7 @@
-﻿namespace CarRentalManagementSystemAPI.Services.BookingService
+﻿using CarRentalManagementSystemAPI.Models;
+using CarRentalManagementSystemAPI.ViewModels;
+
+namespace CarRentalManagementSystemAPI.Services.BookingService
 {
     public class BookingService : IBookingService
     {
@@ -9,15 +12,27 @@
             _context = context;
 
         }
-        public async Task<List<Booking>> AddBooking(Booking booking)
+        public async Task<List<BookingVM>?> AddBooking(BookingVM booking)
         {
-            _context.Bookings.Add(booking);
+            var _booking = new Booking()
+            {
+                CarId = booking.CarId,
+                DriverId = booking.DriverId,
+                CustomerId = booking.CustomerId,
+                Booking_Date_Time = booking.Booking_Date_Time,
+                Rental_Start_Date_Time = booking.Rental_Start_Date_Time,
+                Rental_End_Date_Time = booking.Rental_End_Date_Time,
+                Pick_Up_Location = booking.Pick_Up_Location,
+                Drop_Off_Location = booking.Drop_Off_Location
+            };
+
+            _context.Bookings.Add(_booking);
             await _context.SaveChangesAsync();
 
             return await GetAllBooking();
         }
 
-        public async Task<List<Booking>?> DeleteBookingByBookingId(Guid id)
+        public async Task<List<BookingVM>?> DeleteBookingByBookingId(Guid id)
         {
             var findBooking = await _context.Bookings.FindAsync(id);
             if (findBooking == null)
@@ -31,9 +46,29 @@
             return await GetAllBooking();
         }
 
-        public async Task<List<Booking>?> GetAllBooking()
+        public async Task<List<BookingVM>?> GetAllBooking()
         {
-            return await _context.Bookings.ToListAsync();
+            var bookings = await _context.Bookings.ToListAsync();
+
+            List<BookingVM> result = new List<BookingVM>();
+
+            foreach (var booking in bookings)
+            {
+                var obj = new BookingVM()
+                {
+                    CarId = booking.CarId,
+                    DriverId = booking.DriverId,
+                    CustomerId = booking.CustomerId,
+                    Booking_Date_Time = booking.Booking_Date_Time,
+                    Rental_Start_Date_Time = booking.Rental_Start_Date_Time,
+                    Rental_End_Date_Time = booking.Rental_End_Date_Time,
+                    Pick_Up_Location = booking.Pick_Up_Location,
+                    Drop_Off_Location = booking.Drop_Off_Location
+                };
+
+                result.Add(obj);
+            }
+            return result;
         }
 
         public async Task<Booking?> GetBookingByBookingId(Guid id)
@@ -47,7 +82,7 @@
             return findBooking;
         }
 
-        public async Task<List<Booking>?> UpdateBookingByBookingId(Booking booking)
+        public async Task<List<BookingVM>?> UpdateBookingByBookingId(Booking booking)
         {
             var findBooking = await _context.Bookings.FindAsync(booking.Id);
             if (findBooking == null)
