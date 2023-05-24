@@ -107,7 +107,7 @@ namespace CarRentalManagementSystemAPI.Services.CarService
         {
             var cars = await _context.Cars.Where(c => c.Model == model).ToListAsync();
 
-            List<CarVM> result = new List<CarVM>();
+            var result = new List<CarVM>();
             CarVM carVM;
             //checking the car is in our database or not
             if (cars == null)

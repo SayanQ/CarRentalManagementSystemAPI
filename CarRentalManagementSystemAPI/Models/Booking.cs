@@ -40,6 +40,10 @@ namespace CarRentalManagementSystemAPI.Models
         public string Pick_Up_Location { get; set; } 
         [Required]
 
-        public string Drop_Off_Location { get; set; } 
+        public string Drop_Off_Location { get; set; }
+
+
+        //Navigation Property
+        public List<Payment> Payments { get; set; }
     }
 }

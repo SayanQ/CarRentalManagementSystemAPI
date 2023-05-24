@@ -26,14 +26,20 @@ namespace CarRentalManagementSystemAPI.Data
                 .HasOne(c => c.Customer)
                 .WithMany(b => b.Bookings)
                 .HasForeignKey(ci => ci.CustomerId);
+
+            modelBuilder.Entity<Payment>()
+                .HasOne(c => c.Booking)
+                .WithMany(b => b.Payments)
+                .HasForeignKey(bi => bi.BookingId);
         }
+
 
         public DbSet<Car> Cars { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Booking> Bookings { get; set; }
-        //public DbSet<Payment> Payments { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
 
     }
