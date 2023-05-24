@@ -1,5 +1,4 @@
 ﻿using CarRentalManagementSystemAPI.Services.DriverService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalManagementSystemAPI.Controllers
@@ -15,26 +14,21 @@ namespace CarRentalManagementSystemAPI.Controllers
             _driverSercvice = (DriverService)driverSercvice;
         }
 
+        [HttpPost]
+        public async Task<ActionResult<List<Driver>>?> AddDriver([FromBody] DriverVM driver)
+        {
+            var result = await _driverSercvice.AddDriver(driver);
+            return Ok(result);
+        }
         [HttpGet]
-        public async Task<ActionResult<List<Driver>?>> GetAllDrivers()
+        public async Task<ActionResult<List<DriverVM>?>> GetAllDrivers()
         {
             return await _driverSercvice.GetAllDrivers();
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Driver>?> GetDriverById(Guid id)
+        [HttpGet("{name}")]
+        public async Task<ActionResult<Driver>?> GetDriversByName(string name)
         {
-            var result = await _driverSercvice.GetDriverByDriverId(id);
-            if (result == null) { 
-                return NotFound("Driver not exists in the database.");
-            }
-
-            return Ok(result);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<List<Driver>>?> DeleteDriversById(Guid id)
-        {
-            var result = await _driverSercvice.DeleteDriverByDriverId(id);
+            var result = await _driverSercvice.GetDriversByName(name);
             if (result == null)
             {
                 return NotFound("Driver not exists in the database.");
@@ -42,17 +36,31 @@ namespace CarRentalManagementSystemAPI.Controllers
 
             return Ok(result);
         }
+        [HttpGet("{str}")]
+        public async Task<ActionResult<Driver>?> GetDriverByPhoneNoOrEmailOrAaddhaarOrPanOrDrivingLicence(string str)
+        {
+            var result = await _driverSercvice.GetDriverByPhoneNoOrEmailOrAaddhaarOrPanOrDrivingLicence(str);
+            if (result == null) { 
+                return NotFound("Driver not exists in the database.");
+            }
 
-        [HttpPost]
-        public async Task<ActionResult<List<Driver>>?> AddDriver([FromBody]Driver driver) { 
-            var result = await _driverSercvice.AddDriver(driver);
+            return Ok(result);
+        }
+        [HttpPut]
+        public async Task<ActionResult<List<Driver>>?> UpdateDriver([FromBody]DriverVM driver)
+        {
+            var result = await _driverSercvice.UpdateDriver(driver);
+            if (result == null)
+            {
+                return NotFound("Driver not exists in the database.");
+            }
             return Ok(result);
         }
 
-        [HttpPut]
-        public async Task<ActionResult<List<Driver>>?> UpdateDriverById([FromBody]Driver driver)
+        [HttpDelete]
+        public async Task<ActionResult<List<Driver>>?> DeleteDriver(string str)
         {
-            var result = await _driverSercvice.UpdateDriverByDriverId(driver);
+            var result = await _driverSercvice.DeleteDriver(str);
             if (result == null)
             {
                 return NotFound("Driver not exists in the database.");

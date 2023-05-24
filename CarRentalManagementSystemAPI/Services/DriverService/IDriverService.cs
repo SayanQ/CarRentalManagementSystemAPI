@@ -2,10 +2,12 @@
 {
     public interface IDriverService
     {
-        Task<List<Driver>> GetAllDrivers();
-        Task<Driver>? GetDriverByDriverId(Guid id);
-        Task<List<Driver>?> AddDriver(Driver driver);
-        Task<List<Driver>?> UpdateDriverByDriverId(Driver driver);
-        Task<List<Driver>?> DeleteDriverByDriverId(Guid id);
+        Task<List<DriverVM>?> GetAllDrivers();
+        Task<List<DriverVM>?> AddDriver(DriverVM driver);
+        Task<List<DriverVM>?> DeleteDriver(string str);
+        Task<List<DriverVM>?> GetDriversByName(string name);
+        Task<DriverVM?> GetDriverByPhoneNoOrEmailOrAaddhaarOrPanOrDrivingLicence(string phoneNo);
+        Task<List<DriverVM>?> UpdateDriver(DriverVM div);
+
     }
 }

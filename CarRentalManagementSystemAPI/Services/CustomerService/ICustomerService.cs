@@ -7,11 +7,8 @@ namespace CarRentalManagementSystemAPI.Services.CustomerService
         Task<List<CustomerVM>> GetAllCustomers();
         Task<List<CustomerVM>> AddCustomer(CustomerVM customer);
         Task<List<CustomerVM>?> GetCustomersByName(string name);
-        Task<CustomerVM?> GetCustomerByPhoneNo(string phoneNo);
-        Task<CustomerVM?> GetCustomerByEmailId(string email);
-        Task<CustomerVM?> GetCustomerByAadhaarNo(string aadhaar);
-        Task<CustomerVM?> GetCustomerByPanNo(string pan);
+        Task<CustomerVM?> GetCustomerByPhoneNoOrEmailOrAadharOrPan(string str);
         Task<List<CustomerVM>?> UpdateCustomer(CustomerVM customer);
-        Task<List<CustomerVM>?> DeleteCustomerByPhoneNo(string phone);
+        Task<List<CustomerVM>?> DeleteCustomer(string phone);
     }
 }

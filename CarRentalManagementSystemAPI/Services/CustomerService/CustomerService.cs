@@ -31,20 +31,6 @@ namespace CarRentalManagementSystemAPI.Services.CustomerService
             return await GetAllCustomers();
         }
 
-        public async Task<List<CustomerVM>?> DeleteCustomerByPhoneNo(string phone)
-        {
-            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Phone == phone);
-
-            //checking the car is in our database or not
-            if (customer == null)
-                return null;
-           
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
-
-            return await GetAllCustomers();
-        }
-
         public async Task<List<CustomerVM>> GetAllCustomers()
         {
             var customers = await _context.Customers.ToListAsync();
@@ -68,14 +54,27 @@ namespace CarRentalManagementSystemAPI.Services.CustomerService
             }
             return result;
         }
+        public async Task<List<CustomerVM>?> DeleteCustomer(string str)
+        {
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Phone == str || c.Email == str || c.Address == str || c.Pan_No == str);
 
+            if (customer == null)
+                return null;
+           
+            _context.Customers.Remove(customer);
+            await _context.SaveChangesAsync();
+
+            return await GetAllCustomers();
+        }
+             
         public async Task<List<CustomerVM>?> GetCustomersByName(string name)
         {
             var customers = await _context.Customers.Where(c => c.Name == name).ToListAsync();
 
             List<CustomerVM> result = new List<CustomerVM>();
+
             CustomerVM customerVM;
-            //checking the car is in our database or not
+
             if (customers == null)
                 return null;
             else
@@ -100,81 +99,9 @@ namespace CarRentalManagementSystemAPI.Services.CustomerService
 
         }
 
-        public async Task<CustomerVM?> GetCustomerByPhoneNo(string phoneNo)
+        public async Task<CustomerVM?> GetCustomerByPhoneNoOrEmailOrAadharOrPan(string str)
         {
-            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Phone == phoneNo);
-            CustomerVM result;
-            //checking the car is in our database or not
-            if (customer == null)
-                return null;
-            else
-            {
-                result = new CustomerVM()
-                {
-                    Name = customer.Name,
-                    Address = customer.Address,
-                    Phone = customer.Phone,
-                    Email = customer.Email,
-                    Aadhaar_no = customer.Aadhaar_no,
-                    Pan_No = customer.Pan_No,
-                    Date_Of_Birth = customer.Date_Of_Birth
-                };
-            }
-
-            return result;
-        }
-
-        public async Task<CustomerVM?> GetCustomerByEmailId(string email)
-        {
-            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Email == email);
-            CustomerVM result;
-            //checking the car is in our database or not
-            if (customer == null)
-                return null;
-            else
-            {
-                result = new CustomerVM()
-                {
-                    Name = customer.Name,
-                    Address = customer.Address,
-                    Phone = customer.Phone,
-                    Email = customer.Email,
-                    Aadhaar_no = customer.Aadhaar_no,
-                    Pan_No = customer.Pan_No,
-                    Date_Of_Birth = customer.Date_Of_Birth
-                };
-            }
-
-            return result;
-        }
-
-        public async Task<CustomerVM?> GetCustomerByAadhaarNo(string aadhaar)
-        {
-            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Aadhaar_no == aadhaar);
-            CustomerVM result;
-            //checking the car is in our database or not
-            if (customer == null)
-                return null;
-            else
-            {
-                result = new CustomerVM()
-                {
-                    Name = customer.Name,
-                    Address = customer.Address,
-                    Phone = customer.Phone,
-                    Email = customer.Email,
-                    Aadhaar_no = customer.Aadhaar_no,
-                    Pan_No = customer.Pan_No,
-                    Date_Of_Birth = customer.Date_Of_Birth
-                };
-            }
-
-            return result;
-        }
-
-        public async Task<CustomerVM?> GetCustomerByPanNo(string pan)
-        {
-            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Pan_No == pan);
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Phone == str || c.Email == str || c.Address == str || c.Pan_No == str);
             CustomerVM result;
             //checking the car is in our database or not
             if (customer == null)

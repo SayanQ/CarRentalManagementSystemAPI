@@ -34,10 +34,23 @@ namespace CarRentalManagementSystemAPI.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<ActionResult<List<Customer>?>> DeleteCustomerByPhoneNo(string phone)
+        [HttpGet("byUniqueIdentity/{str}")]
+        public async Task<ActionResult<List<Customer>?>> GetCustomerByPhoneNoOrEmailOrAadharOrPan
+(string str)
         {
-            var result = await _customerService.DeleteCustomerByPhoneNo(phone);
+            var result = await _customerService.GetCustomerByPhoneNoOrEmailOrAadharOrPan
+(str);
+
+            if (result == null)
+                return NotFound("Customer doesn't exists in the database.");
+
+            return Ok(result);
+        }
+
+        [HttpDelete("{str}")]
+        public async Task<ActionResult<List<Customer>?>> DeleteCustomer(string str)
+        {
+            var result = await _customerService.DeleteCustomer(str);
 
             if (result == null)
                 return NotFound("Customer doesn't exists in the database.");
@@ -63,8 +76,6 @@ namespace CarRentalManagementSystemAPI.Controllers
             return Ok(result);
 
         }
-
-
 
 
     }
