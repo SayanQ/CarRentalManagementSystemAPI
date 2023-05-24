@@ -1,7 +1,4 @@
-﻿using CarRentalManagementSystemAPI.Models;
-using CarRentalManagementSystemAPI.ViewModels;
-
-namespace CarRentalManagementSystemAPI.Services.BookingService
+﻿namespace CarRentalManagementSystemAPI.Services.BookingService
 {
     public class BookingService : IBookingService
     {

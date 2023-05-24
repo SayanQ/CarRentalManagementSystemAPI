@@ -56,7 +56,7 @@ namespace CarRentalManagementSystemAPI.Services.CustomerService
         }
         public async Task<List<CustomerVM>?> DeleteCustomer(string str)
         {
-            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Phone == str || c.Email == str || c.Address == str || c.Pan_No == str);
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Phone == str || c.Email == str || c.Aadhaar_no == str || c.Pan_No == str);
 
             if (customer == null)
                 return null;

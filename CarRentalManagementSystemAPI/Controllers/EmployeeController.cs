@@ -16,15 +16,15 @@ namespace CarRentalManagementSystemAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Employee>?>> GetAllEmployees()
+        public async Task<ActionResult<List<EmployeeVM>?>> GetAllEmployees()
         {
             return await _employeeService.GetAllEmployees();
         }
 
-        [HttpGet("{Id}")]
-        public async Task<ActionResult<Employee>?> GetEmployeeById(Guid Id)
+        [HttpGet("{str}")]
+        public async Task<ActionResult<EmployeeVM>?> GetEmployeeByPhoneNoOrEmailOrAadharOrPan(string str)
         {
-            var result = await _employeeService.GetEmployeeByEmployeeId(Id);
+            var result = await _employeeService.GetEmployeeByPhoneNoOrEmailOrAadharOrPan(str);
 
             if (result == null) {
                 return NotFound("Employee doesn't exist in databse");
@@ -36,16 +36,16 @@ namespace CarRentalManagementSystemAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Employee>>> AddEmployee([FromBody] Employee e)
+        public async Task<ActionResult<List<EmployeeVM>>> AddEmployee([FromBody] EmployeeVM e)
         {
             var result = await _employeeService.AddEmployee(e);
             return Ok(result);
         }
 
         [HttpPut]
-        public  async Task<ActionResult<List<Employee>>> UpdateEmployeeById(Employee employee)
+        public  async Task<ActionResult<List<EmployeeVM>>> UpdateEmployeeById(EmployeeVM employee)
         {
-            var result = await _employeeService.UpdateEmployeeByEmployeeId(employee);
+            var result = await _employeeService.UpdateEmployee(employee);
             if (result == null) {
                 return NotFound("Employee doesn't exist in databse");
             }
@@ -54,9 +54,9 @@ namespace CarRentalManagementSystemAPI.Controllers
         }
 
         [HttpDelete("{Id}")]
-        public async Task<ActionResult<List<Employee>>?> DeleteEmployeeById(Guid Id)
+        public async Task<ActionResult<List<EmployeeVM>>?> DeleteEmployee(string str)
         {
-            var result = await _employeeService.DeleteEmployeeByEmployeeId(Id);
+            var result = await _employeeService.DeleteEmployee(str);
             if (result == null) { 
                 return NotFound("Employee doesn't exist in databse");
             }

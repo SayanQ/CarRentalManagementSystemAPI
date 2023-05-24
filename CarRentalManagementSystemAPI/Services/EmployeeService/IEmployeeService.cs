@@ -4,10 +4,12 @@ namespace CarRentalManagementSystemAPI.Services.EmployeeService
 {
     public interface IEmployeeService
     {
-        Task<List<Employee>> GetAllEmployees();
-        Task<Employee>? GetEmployeeByEmployeeId(Guid id);
-        Task<List<Employee>?> AddEmployee(Employee employee);
-        Task<List<Employee>?> UpdateEmployeeByEmployeeId(Employee employee);
-        Task<List<Employee>?> DeleteEmployeeByEmployeeId(Guid id);
+        Task<List<EmployeeVM>?> AddEmployee(EmployeeVM employee);
+        Task<List<EmployeeVM>?> DeleteEmployee(string str);
+        Task<List<EmployeeVM>> GetAllEmployees();
+        Task<EmployeeVM?> GetEmployeeByPhoneNoOrEmailOrAadharOrPan(string str);
+        Task<List<EmployeeVM>?> UpdateEmployee(EmployeeVM employee);
+
+
     }
 }
