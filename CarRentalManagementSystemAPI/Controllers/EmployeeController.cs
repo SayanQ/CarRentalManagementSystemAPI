@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CarRentalManagementSystemAPI.Services.EmployeeService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalManagementSystemAPI.Controllers

@@ -48,9 +48,9 @@
             return findBooking;
         }
 
-        public async Task<List<Booking>?> UpdateBookingByBookingId(Booking booking)
+        public async Task<List<Booking>?> UpdateBookingByBookingId(int id, Booking booking)
         {
-            var findBooking = await _context.Bookings.FindAsync(booking.Id);
+            var findBooking = await _context.Bookings.FindAsync(id);
             if (findBooking == null)
             {
                 return null;

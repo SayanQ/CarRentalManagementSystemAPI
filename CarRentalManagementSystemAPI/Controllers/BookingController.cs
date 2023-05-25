@@ -27,8 +27,8 @@ namespace CarRentalManagementSystemAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<BookingVM>> GetBookingById(int id)
         {
-            var result =  await _booking.GetBookingByBookingId(id);
-            if(result == null)
+            var result = await _booking.GetBookingByBookingId(id);
+            if (result == null)
             {
                 return NotFound("Booking is not exists in database.");
             }
@@ -57,12 +57,12 @@ namespace CarRentalManagementSystemAPI.Controllers
             return Ok(result.Select(booking => _mapper.Map<BookingVM>(booking)));
         }
 
-        [HttpPut]
-        public async Task<ActionResult<List<BookingVM>>> UpdateBookingById([FromBody]Booking bookingVM)
+        [HttpPut("{bookingId}")]
+        public async Task<ActionResult<List<BookingVM>>> UpdateBookingById(int bookingId,[FromBody]BookingVM bookingVM)
         {
             Booking booking = _mapper.Map<Booking>(bookingVM);
 
-            var result = await _booking.UpdateBookingByBookingId(booking);
+            var result = await _booking.UpdateBookingByBookingId(bookingId, booking);
             if (result == null)
             {
                 return NotFound("Booking is not exists in database.");
