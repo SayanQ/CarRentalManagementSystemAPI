@@ -2,12 +2,12 @@
 {
     public interface IPaymentService
     {
-        Task<List<PaymentVM>> AddPayment(PaymentVM payment);
-        Task<List<PaymentVM>?> DeletePaymentByBookingId(int id);
-        Task<List<PaymentVM>> GetAllPayments();
-        Task<List<PaymentVM>?> GetPaymentsByType(string str);
-        Task<List<PaymentVM>?> GetPaymentsByStatus(bool b);
-        Task<List<PaymentVM>?> UpdatePaymentByBookingId(PaymentVM payment);
+        Task<List<Payment>> AddPayment(Payment payment);
+        Task<List<Payment>?> DeletePaymentByBookingId(int id);
+        Task<List<Payment>> GetAllPayments();
+        Task<List<Payment>?> GetPaymentsByType(string str);
+        Task<List<Payment>?> GetPaymentsByStatus(int b);
+        Task<List<Payment>?> UpdatePaymentByBookingId(Payment payment);
 
     }
 }

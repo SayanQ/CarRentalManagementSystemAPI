@@ -1,4 +1,5 @@
-﻿using CarRentalManagementSystemAPI.Services.DriverService;
+﻿using AutoMapper;
+using CarRentalManagementSystemAPI.Services.DriverService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalManagementSystemAPI.Controllers
@@ -8,25 +9,29 @@ namespace CarRentalManagementSystemAPI.Controllers
     public class DriverController : ControllerBase
     {
         private  readonly IDriverService _driverSercvice;
+        private readonly IMapper _mapper;
 
-        public DriverController(IDriverService driverSercvice)
+        public DriverController(IDriverService driverSercvice,IMapper mapper)
         {
             _driverSercvice = driverSercvice;
+            _mapper = mapper;
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Driver>>?> AddDriver([FromBody] DriverVM driver)
+        public async Task<ActionResult<List<DriverVM>?>> AddDriver([FromBody] DriverVM driver)
         {
-            var result = await _driverSercvice.AddDriver(driver);
-            return Ok(result);
+            Driver obj = _mapper.Map<Driver>(driver);
+            var result = await _driverSercvice.AddDriver(obj);
+            return Ok(result.Select(div => _mapper.Map<DriverVM>(div)));
         }
         [HttpGet]
         public async Task<ActionResult<List<DriverVM>?>> GetAllDrivers()
         {
-            return await _driverSercvice.GetAllDrivers();
+            var result = await _driverSercvice.GetAllDrivers();
+            return Ok(result.Select(div => _mapper.Map<DriverVM>(div)));
         }
         [HttpGet("{name}")]
-        public async Task<ActionResult<Driver>?> GetDriversByName(string name)
+        public async Task<ActionResult<DriverVM>?> GetDriversByName(string name)
         {
             var result = await _driverSercvice.GetDriversByName(name);
             if (result == null)
@@ -34,27 +39,28 @@ namespace CarRentalManagementSystemAPI.Controllers
                 return NotFound("Driver not exists in the database.");
             }
 
-            return Ok(result);
+            return Ok(_mapper.Map<DriverVM>(result));
         }
-        [HttpGet("{str}")]
-        public async Task<ActionResult<Driver>?> GetDriverByPhoneNoOrEmailOrAaddhaarOrPanOrDrivingLicence(string str)
+        [HttpGet("byUniqueIdentity/{str}")]
+        public async Task<ActionResult<DriverVM>?> GetDriverByPhoneNoOrEmailOrAaddhaarOrPanOrDrivingLicence(string str)
         {
             var result = await _driverSercvice.GetDriverByPhoneNoOrEmailOrAaddhaarOrPanOrDrivingLicence(str);
             if (result == null) { 
                 return NotFound("Driver not exists in the database.");
             }
 
-            return Ok(result);
+            return Ok(_mapper.Map<DriverVM>(result));
         }
         [HttpPut]
-        public async Task<ActionResult<List<Driver>>?> UpdateDriver([FromBody]DriverVM driver)
+        public async Task<ActionResult<List<Driver>>?> UpdateDriver([FromBody]DriverVM driverVM)
         {
-            var result = await _driverSercvice.UpdateDriver(driver);
+            Driver obj = _mapper.Map<Driver>(driverVM);
+            var result = await _driverSercvice.UpdateDriver(obj);
             if (result == null)
             {
                 return NotFound("Driver not exists in the database.");
             }
-            return Ok(result);
+            return Ok(result.Select(div => _mapper.Map<DriverVM>(div)));
         }
 
         [HttpDelete]
@@ -65,7 +71,7 @@ namespace CarRentalManagementSystemAPI.Controllers
             {
                 return NotFound("Driver not exists in the database.");
             }
-            return Ok(result);
+            return Ok(result.Select(div => _mapper.Map<DriverVM>(div)));
         }
     }
 }

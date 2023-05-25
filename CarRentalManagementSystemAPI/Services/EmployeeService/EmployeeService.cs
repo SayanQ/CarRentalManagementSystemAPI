@@ -1,5 +1,6 @@
 ﻿using CarRentalManagementSystemAPI.Models;
 using CarRentalManagementSystemAPI.ViewModels;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System.Net;
 using System.Numerics;
 
@@ -12,33 +13,17 @@ namespace CarRentalManagementSystemAPI.Services.EmployeeService
         {
             _context = context;
         }
-        public async Task<List<EmployeeVM>?> AddEmployee(EmployeeVM employee)
+        public async Task<List<Employee>?> AddEmployee(Employee employee)
         {
-            var _employee = new Employee()
-            {
-                Name = employee.Name,
-                Address = employee.Address,
-                Phone = employee.Phone,
-                Email = employee.Email,
-                Aadhaar_no = employee.Aadhaar_no,
-                Pan_No = employee.Pan_No,
-                Date_Of_Birth = employee.Date_Of_Birth,
-                Hire_Date = employee.Hire_Date,
-                Job_Title = employee.Job_Title,
-                Employee_Status = employee.Employee_Status,
-                Department = employee.Department,
-                Annual_CTC = employee.Annual_CTC
-            };
-
-            await _context.Employees.AddAsync(_employee);
+            await _context.Employees.AddAsync(employee);
             await _context.SaveChangesAsync();
 
             return await GetAllEmployees();
         }
 
-        public async Task<List<EmployeeVM>?> DeleteEmployee(string str)
+        public async Task<List<Employee>?> DeleteEmployee(string str)
         {
-            var findEmployee = await _context.Employees.FirstOrDefaultAsync(c => c.Phone == str || c.Email == str || c.Address == str || c.Pan_No == str);
+            var findEmployee = await _context.Employees.FirstOrDefaultAsync(c => c.Phone == str || c.Email == str || c.Aadhaar_no == str || c.Pan_No == str);
 
 
             if (findEmployee == null)
@@ -50,61 +35,24 @@ namespace CarRentalManagementSystemAPI.Services.EmployeeService
             return await GetAllEmployees();
         }
 
-        public async Task<List<EmployeeVM>> GetAllEmployees()
+        public async Task<List<Employee>> GetAllEmployees()
         {
             var employees = await _context.Employees.ToListAsync();
 
-            var result = new List<EmployeeVM>();
-
-            foreach (var employee in employees)
-            {
-                var obj = new EmployeeVM()
-                {
-                    Name = employee.Name,
-                    Address = employee.Address,
-                    Phone = employee.Phone,
-                    Email = employee.Email,
-                    Aadhaar_no = employee.Aadhaar_no,
-                    Pan_No = employee.Pan_No,
-                    Date_Of_Birth = employee.Date_Of_Birth,
-                    Hire_Date = employee.Hire_Date,
-                    Job_Title = employee.Job_Title,
-                    Employee_Status = employee.Employee_Status,
-                    Department = employee.Department,
-                    Annual_CTC = employee.Annual_CTC
-                };
-
-                result.Add(obj);
-            }
-            return result;
+            return employees;
         }
 
-        public async Task<EmployeeVM?> GetEmployeeByPhoneNoOrEmailOrAadharOrPan(string str)
+        public async Task<Employee?> GetEmployeeByPhoneNoOrEmailOrAadharOrPan(string str)
         {
-            var employee = await _context.Employees.FirstOrDefaultAsync(c => c.Phone == str || c.Email == str || c.Address == str || c.Pan_No == str);
+            var employee = await _context.Employees.FirstOrDefaultAsync(c => c.Phone == str || c.Email == str || c.Aadhaar_no == str || c.Pan_No == str);
                       
             if (employee == null)
                 return null;
-            var _employee = new EmployeeVM()
-            {
-                Name = employee.Name,
-                Address = employee.Address,
-                Phone = employee.Phone,
-                Email = employee.Email,
-                Aadhaar_no = employee.Aadhaar_no,
-                Pan_No = employee.Pan_No,
-                Date_Of_Birth = employee.Date_Of_Birth,
-                Hire_Date = employee.Hire_Date,
-                Job_Title = employee.Job_Title,
-                Employee_Status = employee.Employee_Status,
-                Department = employee.Department,
-                Annual_CTC = employee.Annual_CTC
-            };
-
-            return _employee;
+            
+            return (employee);
         }
 
-        public async Task<List<EmployeeVM>?> UpdateEmployee(EmployeeVM employee)
+        public async Task<List<Employee>?> UpdateEmployee(Employee employee)
         {
             var employee1 = await _context.Employees.FirstOrDefaultAsync(c => c.Phone == employee.Phone);
 

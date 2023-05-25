@@ -1,7 +1,5 @@
-﻿using CarRentalManagementSystemAPI.Models;
-using CarRentalManagementSystemAPI.Services.CarService;
+﻿using AutoMapper;
 using CarRentalManagementSystemAPI.Services.CustomerService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalManagementSystemAPI.Controllers
@@ -11,31 +9,35 @@ namespace CarRentalManagementSystemAPI.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
+        private readonly IMapper _mapper;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, IMapper mapper)
         {
             _customerService = customerService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<CustomerVM>?>> GetAllCustomers()
         {
-            return await _customerService.GetAllCustomers();
+            var result = await _customerService.GetAllCustomers();
+            return Ok(result.Select(cust => _mapper.Map<CustomerVM>(cust)));
         }
 
         [HttpGet("{name}")]
-        public async Task<ActionResult<List<Customer>?>> GetCustomersByName(string name)
+        public async Task<ActionResult<List<CustomerVM>?>> GetCustomersByName(string name)
         {
             var result = await _customerService.GetCustomersByName(name);
 
             if(result == null)
                 return NotFound("Customer doesn't exists in the database.");
 
-            return Ok(result);
+            return Ok(result.Select(cust => _mapper.Map<CustomerVM>(cust)));
+
         }
 
         [HttpGet("byUniqueIdentity/{str}")]
-        public async Task<ActionResult<List<Customer>?>> GetCustomerByPhoneNoOrEmailOrAadharOrPan
+        public async Task<ActionResult<List<CustomerVM>?>> GetCustomerByPhoneNoOrEmailOrAadharOrPan
 (string str)
         {
             var result = await _customerService.GetCustomerByPhoneNoOrEmailOrAadharOrPan
@@ -44,37 +46,39 @@ namespace CarRentalManagementSystemAPI.Controllers
             if (result == null)
                 return NotFound("Customer doesn't exists in the database.");
 
-            return Ok(result);
+            return Ok(_mapper.Map<CustomerVM>(result));
+
         }
 
         [HttpDelete("{str}")]
-        public async Task<ActionResult<List<Customer>?>> DeleteCustomer(string str)
+        public async Task<ActionResult<List<CustomerVM>?>> DeleteCustomer(string str)
         {
             var result = await _customerService.DeleteCustomer(str);
 
             if (result == null)
                 return NotFound("Customer doesn't exists in the database.");
 
-            return Ok(result);
+            return Ok(result.Select(cust => _mapper.Map<CustomerVM>(cust)));
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Customer>>> AddCustomer([FromBody]CustomerVM customer)
+        public async Task<ActionResult<List<CustomerVM>>> AddCustomer([FromBody]CustomerVM customer)
         {
-            var result = await _customerService.AddCustomer(customer);
-            return Ok(result);
+            Customer obj = _mapper.Map<Customer>(customer);
+            var result = await _customerService.AddCustomer(obj);
+            return Ok(result.Select(cust => _mapper.Map<CustomerVM>(cust)));
         }
 
         [HttpPut]
-        public async Task<ActionResult<List<Customer>?>> UpdateCustomer([FromBody]CustomerVM customer)
+        public async Task<ActionResult<List<CustomerVM>?>> UpdateCustomer([FromBody]CustomerVM customer)
         {
-            var result = await _customerService.UpdateCustomer(customer);
+            Customer obj = _mapper.Map<Customer>(customer);
+            var result = await _customerService.UpdateCustomer(obj);
 
             if (result == null)
                 return NotFound("Customer doesn't exists in the database.");
 
-            return Ok(result);
-
+            return Ok(result.Select(cust => _mapper.Map<CustomerVM>(cust)));
         }
 
 

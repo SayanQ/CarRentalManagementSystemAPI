@@ -4,11 +4,11 @@ namespace CarRentalManagementSystemAPI.Services.CustomerService
 {
     public interface ICustomerService
     {
-        Task<List<CustomerVM>> GetAllCustomers();
-        Task<List<CustomerVM>> AddCustomer(CustomerVM customer);
-        Task<List<CustomerVM>?> GetCustomersByName(string name);
-        Task<CustomerVM?> GetCustomerByPhoneNoOrEmailOrAadharOrPan(string str);
-        Task<List<CustomerVM>?> UpdateCustomer(CustomerVM customer);
-        Task<List<CustomerVM>?> DeleteCustomer(string phone);
+        Task<List<Customer>> GetAllCustomers();
+        Task<List<Customer>> AddCustomer(Customer customer);
+        Task<List<Customer>?> GetCustomersByName(string name);
+        Task<Customer?> GetCustomerByPhoneNoOrEmailOrAadharOrPan(string str);
+        Task<List<Customer>?> UpdateCustomer(Customer customer);
+        Task<List<Customer>?> DeleteCustomer(string phone);
     }
 }

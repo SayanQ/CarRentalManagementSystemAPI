@@ -1,4 +1,5 @@
-﻿using CarRentalManagementSystemAPI.Services.EmployeeService;
+﻿using AutoMapper;
+using CarRentalManagementSystemAPI.Services.EmployeeService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,17 +9,20 @@ namespace CarRentalManagementSystemAPI.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly EmployeeService _employeeService;
+        private readonly IEmployeeService _employeeService;
+        private readonly IMapper _mapper;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService,IMapper mapper)
         {
-            _employeeService = (EmployeeService)employeeService;
+            _employeeService = employeeService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<EmployeeVM>?>> GetAllEmployees()
         {
-            return await _employeeService.GetAllEmployees();
+            var result = await _employeeService.GetAllEmployees();
+            return Ok(result.Select(emp => _mapper.Map<EmployeeVM>(emp)));
         }
 
         [HttpGet("{str}")]
@@ -31,26 +35,30 @@ namespace CarRentalManagementSystemAPI.Controllers
 
             }
 
-            return Ok(result);
+            return Ok(_mapper.Map<EmployeeVM>(result));
 
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<EmployeeVM>>> AddEmployee([FromBody] EmployeeVM e)
+        public async Task<ActionResult<List<EmployeeVM>>> AddEmployee([FromBody] EmployeeVM employeeVM)
         {
-            var result = await _employeeService.AddEmployee(e);
-            return Ok(result);
+            Employee obj = _mapper.Map<Employee>(employeeVM);
+            var result = await _employeeService.AddEmployee(obj);
+
+            return Ok(result.Select(emp => _mapper.Map<EmployeeVM>(emp)));
         }
 
         [HttpPut]
-        public  async Task<ActionResult<List<EmployeeVM>>> UpdateEmployeeById(EmployeeVM employee)
+        public  async Task<ActionResult<List<EmployeeVM>>> UpdateEmployeeById(EmployeeVM employeeVM)
         {
-            var result = await _employeeService.UpdateEmployee(employee);
+            Employee obj = _mapper.Map<Employee>(employeeVM);
+            var result = await _employeeService.UpdateEmployee(obj);
+
             if (result == null) {
                 return NotFound("Employee doesn't exist in databse");
             }
 
-            return Ok(result);
+            return Ok(result.Select(emp => _mapper.Map<EmployeeVM>(emp)));
         }
 
         [HttpDelete("{str}")]
@@ -60,7 +68,7 @@ namespace CarRentalManagementSystemAPI.Controllers
             if (result == null) { 
                 return NotFound("Employee doesn't exist in databse");
             }
-            return Ok(result);
+            return Ok(result.Select(emp => _mapper.Map<EmployeeVM>(emp)));
         }
 
     }

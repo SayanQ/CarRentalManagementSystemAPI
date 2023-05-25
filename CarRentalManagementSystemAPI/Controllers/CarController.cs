@@ -1,6 +1,8 @@
 ﻿using CarRentalManagementSystemAPI.Services.CarService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+
 
 namespace CarRentalManagementSystemAPI.Controllers
 {
@@ -9,66 +11,79 @@ namespace CarRentalManagementSystemAPI.Controllers
     public class CarController : ControllerBase
     {
         private readonly ICarService _carService;
-        public CarController(ICarService carService)
+        private readonly IMapper _mapper;
+
+        public CarController(ICarService carService, IMapper mapper)
         {
             _carService = carService;
+            _mapper = mapper;
+
         }
+
+
 
         //Return all cars
         [HttpGet]//for sending response to the swagger 
         public async Task<ActionResult<List<CarVM>?>> GetAllCars()
         {
-            return await _carService.GetAllCars();
+            var result = await _carService.GetAllCars();
+            return Ok(result.Select(c => _mapper.Map<CarVM>(c)));
         }
 
         //Return cars by car no
         [HttpGet]
         [Route("{Car_No}")]//telling swagger for getting the car_no from user
-        public async Task<ActionResult<List<Car>>> GetCarByCarNo(string Car_No)
+        public async Task<ActionResult<CarVM>> GetCarByCarNo(string Car_No)
         {
             var result = await _carService.GetCarByCarNo(Car_No);
 
             if (result == null)
                 return NotFound("Car doesn't exist in databse");
 
-            return Ok(result);
+            return Ok(_mapper.Map<CarVM>(result));
         }
 
         [HttpGet("byModel/{model}")]
-        //[Route("{Model}")]//telling swagger for getting the car_no from user
-        public async Task<ActionResult<List<Car>>> GetCarByModel(string model)
+        public async Task<ActionResult<List<CarVM>>> GetCarByModel(string model)
         {
             var result = await _carService.GetCarsByModel(model);
 
             if (result == null)
                 return NotFound("Car doesn't exist in databse");
 
-            return Ok(result);
+            return Ok(result.Select(c => _mapper.Map<CarVM>(c)));
         }
 
         //Add car in the cars
         [HttpPost]
-        public async Task<ActionResult<List<Car>>> AddCar(CarVM car)//telling the method that input will be getting from the body
+        public async Task<ActionResult<List<Car>>> AddCar([FromBody]CarVM carVM)//telling the method that input will be getting from the body
         {
-            var result = await _carService.AddCar(car);
-            return Ok(result);
+            var carObj = _mapper.Map<Car>(carVM);
+            var result = await _carService.AddCar(carObj);
+
+            return Ok(result.Select(c => _mapper.Map<CarVM>(c)));
+
         }
 
         //Update cars by car no
         [HttpPut]
-        public async Task<ActionResult<List<Car>>> UpdateCarByCarNo([FromBody]CarVM car)
+        public async Task<ActionResult<List<CarVM>>> UpdateCarByCarNo([FromBody]CarVM carVM)
         {
-            var result = await _carService.UpdateCarByCarNo(car);
+            var carObj = _mapper.Map<Car>(carVM);
+
+            var result = await _carService.UpdateCarByCarNo(carObj);
 
             if (result == null)
                 return NotFound("Car doesn't exist in databse");
 
-            return Ok(result);
+            //return Ok(result);
+            return Ok(result.Select(c => _mapper.Map<CarVM>(c)));
+
         }
 
         [HttpDelete]
         [Route("{Car_No}")]
-        public async Task<ActionResult<List<Car>>> DeleteCarByCarNo(string Car_No)
+        public async Task<ActionResult<List<CarVM>>> DeleteCarByCarNo(string Car_No)
         {
             //calling the DeleteCarByCarNo from service
             var result = await _carService.DeleteCarByCarNo(Car_No);
@@ -76,7 +91,9 @@ namespace CarRentalManagementSystemAPI.Controllers
             if (result == null) 
                 return NotFound("Car doesn't exist in databse");
 
-            return Ok(result);
+            //return Ok(result);
+            return Ok(result.Select(c => _mapper.Map<CarVM>(c)));
+
 
 
         }

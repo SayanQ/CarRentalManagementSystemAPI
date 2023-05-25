@@ -1,4 +1,5 @@
-﻿using CarRentalManagementSystemAPI.Services.PaymentService;
+﻿using AutoMapper;
+using CarRentalManagementSystemAPI.Services.PaymentService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalManagementSystemAPI.Controllers
@@ -8,16 +9,20 @@ namespace CarRentalManagementSystemAPI.Controllers
     public class PaymentController : ControllerBase
     {
         private readonly IPaymentService _paymentService;
+        private readonly IMapper _mapper;
 
-        public PaymentController(IPaymentService paymentService)
+        public PaymentController(IPaymentService paymentService,IMapper mapper)
         {
             _paymentService = paymentService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<PaymentVM>>?> GetAllPayments()
         {
-            return await _paymentService.GetAllPayments();
+            var result = await _paymentService.GetAllPayments();
+            return Ok(result.Select(payment => _mapper.Map<PaymentVM>(payment)));
+
         }
 
         [HttpGet("{type}")]
@@ -30,11 +35,12 @@ namespace CarRentalManagementSystemAPI.Controllers
 
             }
 
-            return Ok(result);
+            return Ok(result.Select(payment => _mapper.Map<PaymentVM>(payment)));
+
         }
 
         [HttpGet("byStatus/{paymentStatus}")]
-        public async Task<ActionResult<List<PaymentVM>>?> GetPaymentByStatus(bool paymentStatus)
+        public async Task<ActionResult<List<PaymentVM>>?> GetPaymentByStatus(int paymentStatus)
         {
             var result = await _paymentService.GetPaymentsByStatus(paymentStatus);
             if (result == null)
@@ -43,7 +49,7 @@ namespace CarRentalManagementSystemAPI.Controllers
 
             }
 
-            return Ok(result);
+            return Ok(result.Select(payment => _mapper.Map<PaymentVM>(payment)));
         }
 
         [HttpDelete("{id}")]
@@ -56,27 +62,30 @@ namespace CarRentalManagementSystemAPI.Controllers
 
             }
 
-            return Ok(result);
+            return Ok(result.Select(payment => _mapper.Map<PaymentVM>(payment)));
         }
 
         [HttpPut]
-        public async Task<ActionResult<List<Payment>>?> UpdatePayment([FromBody] PaymentVM payment)
+        public async Task<ActionResult<List<PaymentVM>>?> UpdatePayment([FromBody] PaymentVM payment)
         {
-            var result = await _paymentService.UpdatePaymentByBookingId(payment);
+            var obj = _mapper.Map<Payment>(payment);
+            var result = await _paymentService.UpdatePaymentByBookingId(obj);
             if (result == null)
             {
                 return NotFound("Payment doesn't exist in databse");
 
             }
 
-            return Ok(result);
+            return Ok(result.Select(payment => _mapper.Map<PaymentVM>(payment)));
+
         }
 
         [HttpPost]
         public async Task<ActionResult<List<PaymentVM>>?> AddPayment([FromBody]PaymentVM payment)
         {
-            var result = await _paymentService.AddPayment(payment);
-            return Ok(result);
+            var obj = _mapper.Map<Payment>(payment);
+            var result = await _paymentService.AddPayment(obj);
+            return Ok(result.Select(payment => _mapper.Map<PaymentVM>(payment)));
         }
     }
 }

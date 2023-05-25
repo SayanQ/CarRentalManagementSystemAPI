@@ -2,11 +2,11 @@
 {
     public interface ICarService
     {
-        Task<List<CarVM>> GetAllCars();
-        Task<CarVM?> GetCarByCarNo(string Car_No);
-        Task<List<CarVM>?> GetCarsByModel(string model);
-        Task<List<CarVM>> AddCar(CarVM car);
-        Task<List<CarVM>?> UpdateCarByCarNo(CarVM car);
-        Task<List<CarVM>?> DeleteCarByCarNo(string Car_No);
+        Task<List<Car>> GetAllCars();
+        Task<Car?> GetCarByCarNo(string Car_No);
+        Task<List<Car>?> GetCarsByModel(string model);
+        Task<List<Car>> AddCar(Car car);
+        Task<List<Car>?> UpdateCarByCarNo(Car car);
+        Task<List<Car>?> DeleteCarByCarNo(string Car_No);
     }
 }

@@ -20,8 +20,8 @@ namespace CarRentalManagementSystemAPI.Models
         public string Payment_Type { get; set;}
 
         [Required]
-        [RegularExpression(@"^(1|0)$", ErrorMessage = "Payment status should be within true or false")]
-        public bool Payment_Status { get; set; }
+        //[RegularExpression(@"^(1|0)$", ErrorMessage = "Payment status should be within true or false")]
+        public int Payment_Status { get; set; }
 
 
         [Required]
@@ -29,12 +29,12 @@ namespace CarRentalManagementSystemAPI.Models
 
         [Required]
         public float Amount { get; set; }
-
+        /*
         public Payment()
         {
             Payment_Date_Time = DateTime.Now;
         }
-
+        */
 
     }
 }

@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using CarRentalManagementSystemAPI.Services.BookingService;
+using AutoMapper;
+
 namespace CarRentalManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -8,19 +9,23 @@ namespace CarRentalManagementSystemAPI.Controllers
     public class BookingController : ControllerBase
     {
         private readonly IBookingService _booking;
+        private readonly IMapper _mapper;
 
-        public BookingController(IBookingService booking)
+        public BookingController(IBookingService booking, IMapper mapper)
         {
             _booking = booking;
+            _mapper = mapper;
         }
         [HttpGet]
         public async Task<ActionResult<List<BookingVM>>> GetALLBooking()
         {
-            return await _booking.GetAllBooking();
+            var result = await _booking.GetAllBooking();
+            return Ok(result.Select(booking => _mapper.Map<BookingVM>(booking)));
+
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Booking>>> GetBookingById(Guid id)
+        public async Task<ActionResult<BookingVM>> GetBookingById(int id)
         {
             var result =  await _booking.GetBookingByBookingId(id);
             if(result == null)
@@ -28,16 +33,20 @@ namespace CarRentalManagementSystemAPI.Controllers
                 return NotFound("Booking is not exists in database.");
             }
 
-            return Ok(result);
+            return Ok(_mapper.Map<BookingVM>(result));
+
         }
         [HttpPost]
-        public async Task<ActionResult<List<BookingVM>>> AddBooking(BookingVM booking)
+        public async Task<ActionResult<List<BookingVM>>> AddBooking(BookingVM bookingVM)
         {
-            return await _booking.AddBooking(booking);
+            Booking booking = _mapper.Map<Booking>(bookingVM);
+            var result = await _booking.AddBooking(booking);
+
+            return Ok(result.Select(b => _mapper.Map<BookingVM>(b)));
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<List<Booking>>> DeleteBookingById(Guid id)
+        public async Task<ActionResult<List<BookingVM>>> DeleteBookingById(int id)
         {
             var result = await _booking.DeleteBookingByBookingId(id);
             if (result == null)
@@ -45,19 +54,21 @@ namespace CarRentalManagementSystemAPI.Controllers
                 return NotFound("Booking is not exists in database.");
             }
 
-            return Ok(result);
+            return Ok(result.Select(booking => _mapper.Map<BookingVM>(booking)));
         }
 
         [HttpPut]
-        public async Task<ActionResult<List<Booking>>> UpdateBookingById(Booking booking)
+        public async Task<ActionResult<List<BookingVM>>> UpdateBookingById([FromBody]Booking bookingVM)
         {
+            Booking booking = _mapper.Map<Booking>(bookingVM);
+
             var result = await _booking.UpdateBookingByBookingId(booking);
             if (result == null)
             {
                 return NotFound("Booking is not exists in database.");
             }
 
-            return Ok(result);
+            return Ok(result.Select(b => _mapper.Map<BookingVM>(b)));
         }
     }
 }

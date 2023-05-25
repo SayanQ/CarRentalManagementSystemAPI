@@ -13,9 +13,9 @@ namespace CarRentalManagementSystemAPI.ViewModels
         public string Payment_Type { get; set; }
 
         [Required]
-        [RegularExpression(@"^(1|0)$", ErrorMessage = "Payment status should be within true or false")]
+        //[RegularExpression(@"^(1|0)$", ErrorMessage = "Payment status should be within true or false")]
 
-        public bool Payment_Status { get; set; }
+        public int Payment_Status { get; set; }
 
 
         [Required]

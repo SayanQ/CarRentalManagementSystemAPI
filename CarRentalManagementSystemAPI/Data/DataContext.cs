@@ -1,5 +1,4 @@
 ﻿global using Microsoft.EntityFrameworkCore;
-using CarRentalManagementSystemAPI.Models;
 
 namespace CarRentalManagementSystemAPI.Data
 {
@@ -32,7 +31,6 @@ namespace CarRentalManagementSystemAPI.Data
                 .WithMany(b => b.Payments)
                 .HasForeignKey(bi => bi.BookingId);
         }
-
 
         public DbSet<Car> Cars { get; set; }
         public DbSet<Customer> Customers { get; set; }
