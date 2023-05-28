@@ -48,7 +48,7 @@ namespace CarRentalManagementSystemAPI.Services.PaymentService
 
             return payments;
         }
-        public async Task<List<Payment>?> GetPaymentsByStatus(int b)
+        public async Task<List<Payment>?> GetPaymentsByStatus(string b)//error
         {
             var payments = await _context.Payments.Where(p => p.Payment_Status == b).ToListAsync();
             return payments;

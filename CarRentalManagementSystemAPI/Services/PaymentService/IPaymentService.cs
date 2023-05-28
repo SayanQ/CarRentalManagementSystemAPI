@@ -6,7 +6,7 @@
         Task<List<Payment>?> DeletePaymentByBookingId(int id);
         Task<List<Payment>> GetAllPayments();
         Task<List<Payment>?> GetPaymentsByType(string str);
-        Task<List<Payment>?> GetPaymentsByStatus(int b);
+        Task<List<Payment>?> GetPaymentsByStatus(string b);
         Task<List<Payment>?> UpdatePaymentByBookingId(Payment payment);
 
     }

@@ -10,6 +10,10 @@ using CarRentalManagementSystemAPI.Services.PaymentService;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//For adding the log4net into our api
+builder.Logging.AddLog4Net();
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();

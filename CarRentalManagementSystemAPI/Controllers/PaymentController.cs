@@ -40,7 +40,7 @@ namespace CarRentalManagementSystemAPI.Controllers
         }
 
         [HttpGet("byStatus/{paymentStatus}")]
-        public async Task<ActionResult<List<PaymentVM>>?> GetPaymentByStatus(int paymentStatus)
+        public async Task<ActionResult<List<PaymentVM>>?> GetPaymentByStatus(string paymentStatus)
         {
             var result = await _paymentService.GetPaymentsByStatus(paymentStatus);
             if (result == null)
@@ -52,10 +52,10 @@ namespace CarRentalManagementSystemAPI.Controllers
             return Ok(result.Select(payment => _mapper.Map<PaymentVM>(payment)));
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<List<PaymentVM>>?> DeletePaymentById(int id)
+        [HttpDelete("{booking_id}")]
+        public async Task<ActionResult<List<PaymentVM>>?> DeletePaymentById(int booking_id)
         {
-            var result = await _paymentService.DeletePaymentByBookingId(id);
+            var result = await _paymentService.DeletePaymentByBookingId(booking_id);
             if (result == null)
             {
                 return NotFound("Payment doesn't exist in databse");

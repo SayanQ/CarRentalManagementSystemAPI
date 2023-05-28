@@ -4,6 +4,11 @@ namespace CarRentalManagementSystemAPI.ViewModels
 {
     public class BookingVM
     {
+        /*
+        [Required]
+        [RegularExpression(@"^B\d{5}$",ErrorMessage = "Booking Code must be in the format B12345")]
+        public string Booking_Code { get; set; }*/
+
         [Required]
         public int CarId { get; set; } 
 
