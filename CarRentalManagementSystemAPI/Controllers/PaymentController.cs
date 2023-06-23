@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using CarRentalManagementSystemAPI.Services.PaymentService;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
+
     public class PaymentController : ControllerBase
     {
         private readonly IPaymentService _paymentService;

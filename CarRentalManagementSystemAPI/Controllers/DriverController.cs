@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using CarRentalManagementSystemAPI.Services.DriverService;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class DriverController : ControllerBase
     {
         private  readonly IDriverService _driverSercvice;

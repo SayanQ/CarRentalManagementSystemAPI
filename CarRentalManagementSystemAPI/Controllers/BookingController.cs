@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CarRentalManagementSystemAPI.Services.BookingService;
 using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 
 namespace CarRentalManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class BookingController : ControllerBase
     {
         private readonly IBookingService _booking;

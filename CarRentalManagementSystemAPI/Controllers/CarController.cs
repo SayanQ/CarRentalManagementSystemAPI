@@ -2,30 +2,38 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-
+using Microsoft.AspNetCore.Cors;
 
 namespace CarRentalManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class CarController : ControllerBase
     {
+        private readonly ILogger<CarController> _logger;
         private readonly ICarService _carService;
         private readonly IMapper _mapper;
 
-        public CarController(ICarService carService, IMapper mapper)
-        {
+        public CarController(ICarService carService, IMapper mapper, ILogger<CarController> logger){
             _carService = carService;
             _mapper = mapper;
-
+            _logger = logger;
         }
 
-
+         
 
         //Return all cars
         [HttpGet]//for sending response to the swagger 
         public async Task<ActionResult<List<CarVM>?>> GetAllCars()
         {
+            _logger.LogTrace("Log message from trace method");
+            _logger.LogDebug("Log message from Debug method");
+            _logger.LogInformation("Log message from Information method");
+            _logger.LogWarning("Log message from Warning method");
+            _logger.LogError("Log message from Error method");
+            _logger.LogCritical("Log message from Critical method");
+
             var result = await _carService.GetAllCars();
             return Ok(result.Select(c => _mapper.Map<CarVM>(c)));
         }

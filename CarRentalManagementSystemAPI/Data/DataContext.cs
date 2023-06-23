@@ -38,6 +38,7 @@ namespace CarRentalManagementSystemAPI.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<UserAuth> UserAuths { get; set; }
 
 
     }

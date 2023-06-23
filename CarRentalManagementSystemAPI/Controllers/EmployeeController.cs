@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using CarRentalManagementSystemAPI.Services.EmployeeService;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalManagementSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
+
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
