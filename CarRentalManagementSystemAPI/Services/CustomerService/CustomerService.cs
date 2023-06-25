@@ -71,5 +71,10 @@
             return await GetAllCustomers();
         }
 
+        public async Task<int?> GetCustomerIDByPhoneNo(string phoneNo)
+        {
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Phone == phoneNo);
+            return customer.Id;
+        }
     }
 }

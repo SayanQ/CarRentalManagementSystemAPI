@@ -105,6 +105,18 @@ namespace CarRentalManagementSystemAPI.Controllers
 
 
         }
+        
+        [HttpGet]
+        [Route("forBooking/{Car_No}")]//telling swagger for getting the car_no from user
+        public async Task<ActionResult<int>> GetCarIDByCarNo(string Car_No)
+        {
+            var result = await _carService.GetCarIDByCarNo(Car_No);//forBooking = car_No from frontend
+
+            if (result == 0)
+                return NotFound("Car doesn't exist in databse");
+
+            return Ok(result);
+        }
     }
 
     

@@ -75,5 +75,18 @@ namespace CarRentalManagementSystemAPI.Controllers
             }
             return Ok(result.Select(div => _mapper.Map<DriverVM>(div)));
         }
+
+        [HttpGet]
+        [Route("forBooking/{driver_phone_no}")]
+        public async Task<ActionResult<int>> GetDriverIDByPhoneNo(string driver_phone_no)
+        {
+            var result = await _driverSercvice.GetDriverIDByPhoneNo(driver_phone_no);
+
+
+            if (result == 0)
+                return NotFound("Driver doesn't exist in databse");
+
+            return Ok(result);
+        }
     }
 }

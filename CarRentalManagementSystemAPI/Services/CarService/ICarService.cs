@@ -8,5 +8,7 @@
         Task<List<Car>> AddCar(Car car);
         Task<List<Car>?> UpdateCarByCarNo(Car car);
         Task<List<Car>?> DeleteCarByCarNo(string Car_No);
+
+        Task<int?> GetCarIDByCarNo(string Car_No);
     }
 }

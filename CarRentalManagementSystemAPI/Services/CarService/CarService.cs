@@ -47,6 +47,16 @@
             return findCar;
         }
 
+        public async Task<int?> GetCarIDByCarNo(string car_No)
+        {
+            var findCar = await _context.Cars.FirstOrDefaultAsync(c => c.Car_No == car_No);
+
+            if (findCar == null)
+                return 0;
+
+            return findCar.Id;
+        }
+
         public async Task<List<Car>?> GetCarsByModel(string model)
         {
             var cars = await _context.Cars.Where(c => c.Model == model).ToListAsync();

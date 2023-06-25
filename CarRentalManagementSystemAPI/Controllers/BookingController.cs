@@ -72,5 +72,18 @@ namespace CarRentalManagementSystemAPI.Controllers
 
             return Ok(result.Select(b => _mapper.Map<BookingVM>(b)));
         }
+
+        //HttpGet method for bookingid using driverid,caridand customerid
+        [HttpGet]
+        [Route("forBooking/{Car_Id}/{Customer_Id}/{Driver_Id}")]
+        public async Task<ActionResult<int>> GetCarIDByCarNo(int Car_Id, int Customer_Id, int Driver_Id)
+        {
+            var result = await _booking.GetBookingID(Car_Id, Customer_Id, Driver_Id);
+
+            if (result == 0)
+                return NotFound("Booking doesn't exist in database");
+
+            return Ok(result);
+        }
     }
 }

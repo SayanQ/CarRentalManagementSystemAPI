@@ -8,6 +8,7 @@
         Task<List<Driver>?> GetDriversByName(string name);
         Task<Driver?> GetDriverByPhoneNoOrEmailOrAaddhaarOrPanOrDrivingLicence(string phoneNo);
         Task<List<Driver>?> UpdateDriver(Driver div);
+        Task<int?> GetDriverIDByPhoneNo(string phoneNo);
 
     }
 }

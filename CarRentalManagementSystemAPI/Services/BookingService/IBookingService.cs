@@ -10,6 +10,8 @@ namespace CarRentalManagementSystemAPI.Services.BookingService
         Task<List<Booking>?> DeleteBookingByBookingId(int Id);
         Task<List<Booking>?> UpdateBookingByBookingId(int id,Booking booking);
 
+        Task<int?> GetBookingID(int carId, int customerId, int driverId);
+
 
     }
 }

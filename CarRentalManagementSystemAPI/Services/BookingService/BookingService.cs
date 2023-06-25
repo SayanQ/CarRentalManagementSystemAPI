@@ -48,6 +48,12 @@
             return findBooking;
         }
 
+        public async Task<int?> GetBookingID(int carId, int customerId, int driverId)
+        {
+            var booking = await _context.Bookings.FirstOrDefaultAsync(b => b.CarId == carId && b.CustomerId == customerId && b.DriverId == driverId);
+            return booking.Id;
+        }
+
         public async Task<List<Booking>?> UpdateBookingByBookingId(int id, Booking booking)
         {
             var findBooking = await _context.Bookings.FindAsync(id);

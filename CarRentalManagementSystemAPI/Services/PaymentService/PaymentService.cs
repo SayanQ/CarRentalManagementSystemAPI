@@ -12,6 +12,7 @@ namespace CarRentalManagementSystemAPI.Services.PaymentService
         }
         public async Task<List<Payment>> AddPayment(Payment payment)
         {
+
             await _context.AddAsync(payment);
             await _context.SaveChangesAsync();
 

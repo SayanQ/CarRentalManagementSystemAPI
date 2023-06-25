@@ -10,5 +10,6 @@ namespace CarRentalManagementSystemAPI.Services.CustomerService
         Task<Customer?> GetCustomerByPhoneNoOrEmailOrAadharOrPan(string str);
         Task<List<Customer>?> UpdateCustomer(Customer customer);
         Task<List<Customer>?> DeleteCustomer(string phone);
+        Task<int?> GetCustomerIDByPhoneNo(string phoneNo);
     }
 }

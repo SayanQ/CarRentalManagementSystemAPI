@@ -74,5 +74,11 @@ namespace CarRentalManagementSystemAPI.Services.DriverService
             }
             return await GetAllDrivers();
         }
+
+        public async Task<int?> GetDriverIDByPhoneNo(string phoneNo)
+        {
+            var driver = await _context.Drivers.FirstOrDefaultAsync(d => d.Phone == phoneNo);
+            return driver.Id;
+        }
     }
 }
